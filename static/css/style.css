@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ======= THEME VARIABLES ======= */
+:root {
+    --font: 'Orbitron', monospace;
+    --bg: #0f0f1a;
+    --text: #f8f8ff;
+    --primary: #ff00cc;
+    --secondary: #00ffff;
+    --accent: #ff2a2a;
+    --glass: rgba(255,255,255,0.06);
+    --glow-text: 0 0 6px var(--primary), 0 0 12px var(--primary);
+    --glow-shadow: 0 0 12px var(--primary), 0 0 24px var(--secondary);
+    --btn-bg-on: var(--primary);
+    --btn-bg-off: var(--glass);
+}
+body.light {
+    --bg: #f8f8f8;
+    --text: #1a1a1a;
+    --primary: #4AC9FF;
+    --secondary: #8A2BE2;
+    --accent: #e60039;
+    --glow-text: 0 0 3px var(--primary), 0 0 6px var(--secondary);
+    --glow-shadow: 0 0 8px var(--primary), 0 0 14px var(--secondary);
+    --btn-bg-on: var(--primary);
+    --btn-bg-off: #ddd;
+}
+
+/* ======= GLOBAL ======= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.4s, color 0.4s;
+    overflow: hidden;
+}
+body > *:not(#tsparticles) { position: relative; z-index: 1; }
+
+/* ======= TOPBAR ======= */
+#topbar {
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.topbar-actions { display: flex; gap: 10px; }
+
+/* ======= BUTTON STYLE ======= */
+button,
+#toggle-mode,
+#toggle-particle-btn,
+#toggle-neon-btn,
+.voice-btn {
+    min-width: 90px;
+    height: 36px;
+    padding: 0 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--secondary);
+    background: var(--btn-bg-off);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: var(--glow-text);
+    box-shadow: var(--glow-shadow);
+    transition: all 0.3s;
+}
+button.on,
+#toggle-mode.on,
+#toggle-particle-btn.on,
+#toggle-neon-btn.on,
+.voice-btn.on {
+    background: var(--btn-bg-on);
+    color: #000;
+    box-shadow: 0 0 16px var(--primary), 0 0 32px var(--accent);
+}
+button.off,
+#toggle-mode.off,
+#toggle-particle-btn.off,
+#toggle-neon-btn.off,
+.voice-btn.off {
+    background: var(--btn-bg-off);
+    color: var(--text);
+}
+button:hover { transform: scale(1.05); }
+
+/* ======= CAPTCHA CONTAINER ======= */
+#captchas {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.captcha-card {
+    display: flex;
+    flex-direction: row;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 90px);
+    margin: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--primary);
+    box-shadow: var(--glow-shadow);
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+.captcha-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 24px var(--primary), 0 0 48px var(--secondary);
+}
+.captcha-img {
+    flex: 4;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 30px;
+}
+.captcha-img img {
+    height: 80vh;
+    max-width: 100%;
+    border-radius: 20px;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.captcha-input {
+    flex: 1;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.captcha-input input {
+    width: 100%;
+    max-width: 250px;
+    font-size: 24px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--text);
+    text-shadow: var(--glow-text);
+    box-shadow: var(--glow-shadow);
+    animation: neon-glow 2.5s infinite alternate;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.captcha-input input:focus {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px var(--primary);
+}
+
+/* ======= STATUS & HEADINGS ======= */
+#status {
+    font-size: 18px;
+    color: var(--accent);
+    text-shadow: 0 0 4px var(--accent), 0 0 10px var(--accent);
+}
+h1, h2, h3, h4, h5, h6 { text-shadow: var(--glow-text); }
+
+/* ======= PARTICLE BACKGROUND ======= */
+#tsparticles {
+    position: fixed;
+    z-index: 0;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+/* ======= ANIMATION ======= */
+@keyframes neon-glow {
+    0%,100% { box-shadow: 0 0 6px var(--primary); }
+    50% { box-shadow: 0 0 20px var(--secondary); }
+}
+
+/* ======= WELCOME POPUP ======= */
+#welcome-popup, #welcome-popup * {
+    font-family: 'Fira Code', monospace !important;
+}
+#welcome-popup { transition: opacity 0.4s, transform 0.4s; }
+#welcome-popup.hide {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.5);
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 768px) {
+    .captcha-card { flex-direction: column; height: auto; }
+    .captcha-img img { max-height: 60vh; }
+}
+
+/* ======= NO-NEON MODE ======= */
+body.no-neon * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+    background-image: none !important;
+}
+body.no-neon button,
+body.no-neon #toggle-mode,
+body.no-neon #toggle-particle-btn,
+body.no-neon #toggle-neon-btn,
+body.no-neon .voice-btn {
+    background: #ccc !important;
+    color: #222 !important;
+    border: 1px solid #999 !important;
+    font-weight: bold;
+}
+body.no-neon .captcha-img img {
+    box-shadow: none !important;
+}
+body.no-neon button.on,
+body.no-neon #toggle-mode.on,
+body.no-neon #toggle-particle-btn.on,
+body.no-neon #toggle-neon-btn.on,
+body.no-neon .voice-btn.on {
+    background: #4AC9FF !important;
+    color: #000 !important;
+}

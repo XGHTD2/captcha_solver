@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Captcha cần giải</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+</head>
+<body>
+    <div id="topbar">
+        <div id="status">🔥 0 Captcha cần giải</div>
+        <div class="topbar-actions">
+            <button id="toggle-mode">🌗 Toggle Theme</button>
+            <button id="global-voice-btn" class="voice-btn off" title="Bật/tắt nhận diện giọng nói">🎤 Off</button>
+            <button id="toggle-sound-btn" class="voice-btn on" title="Bật/tắt âm thanh">🔊 On</button>
+            <button id="auto-submit-btn" class="voice-btn off" title="Tự động gửi khi nhận diện voice">🚫 Off</button>
+            <button id="toggle-particle-btn" class="voice-btn off" title="Bật/tắt hiệu ứng hạt">✨ Hạt Off</button>
+            <button id="toggle-neon-btn" class="voice-btn on" title="Bật/tắt hiệu ứng neon">🌟 Neon On</button>
+        </div>
+    </div>
+    <div id="captchas"></div>
+    <audio id="alertSound" loop>
+        <source src="{{ url_for('static', filename='sound/alert.mp3') }}" type="audio/mpeg" />
+    </audio>
+    <div id="tsparticles"></div>
+    <div id="welcome-popup" style="position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;background:rgba(10,16,32,0.92);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+        <div style="background:rgba(30,34,54,0.98);padding:38px 48px 32px 48px;border-radius:20px;box-shadow:0 0 32px #8A2BE2,0 0 12px #4AC9FF;text-align:left;max-width:96vw;min-width:340px;">
+            <h2 style="color:#8A2BE2;font-size:2.2rem;margin-bottom:10px;text-shadow:0 0 8px #8A2BE2,0 0 2px #fff;">🤖 Chào mừng đến với <span style="color:#4AC9FF;">Captcha Solver AI</span></h2>
+            <p style="color:#fff;font-size:1.1rem;line-height:1.7;margin-bottom:18px;text-shadow:0 0 4px #222;">
+                <b>Captcha Solver AI</b> là công cụ hỗ trợ giải captcha tự động, tối ưu cho các tác vụ tự động hóa, kiểm thử, hoặc hỗ trợ thao tác nhanh trên nền tảng số.<br>
+                <br>
+                <b>Chức năng nổi bật:</b>
+                <ul style="margin: 8px 0 16px 24px; color:#4AC9FF; font-size:1.05rem;">
+                    <li>Nhận diện và nhập Captcha nhanh chóng, hỗ trợ nhập bằng <b>giọng nói tiếng Việt</b></li>
+                    <li>Bật/tắt hiệu ứng <b>Neon</b> và <b>Particle</b> cho giao diện hiện đại</li>
+                    <li>Chế độ <b>Dark/Light</b> bảo vệ mắt, chuyển đổi linh hoạt</li>
+                    <li>Âm thanh cảnh báo khi có Captcha mới</li>
+                    <li>Tự động gửi Captcha khi nhận diện voice thành công</li>
+                </ul>
+                <b>Hướng dẫn sử dụng nhanh:</b>
+                <ul style="margin: 8px 0 16px 24px; color:#39ff14; font-size:1.05rem;">
+                    <li>Bấm <b>Bắt đầu</b> để kích hoạt âm thanh và các tính năng</li>
+                    <li>Sử dụng các nút trên thanh công cụ để bật/tắt hiệu ứng, âm thanh, giọng nói</li>
+                    <li>Nhập Captcha bằng tay hoặc bấm 🎤 để dùng giọng nói</li>
+                    <li>Chuyển đổi giao diện sáng/tối bằng nút 🌗</li>
+                </ul>
+                <b>Tương tác:</b>
+                <ul style="margin: 8px 0 0 24px; color:#FFD700; font-size:1.05rem;">
+                    <li>Hỗ trợ phím <b>Enter</b> để gửi nhanh</li>
+                    <li>Nhấn <b>Clear</b> hoặc <b>Xóa</b> khi dùng voice để xóa ô nhập</li>
+                    <li>Nhận diện số tự động, đọc "ok", "enter" hoặc "hết" để gửi Captcha</li>
+                </ul>
+                <br>
+                <span style="color:#aaa;font-size:0.98rem;">Mọi dữ liệu Captcha chỉ xử lý trên trình duyệt, đảm bảo riêng tư tuyệt đối.</span>
+            </p>
+            <button id="welcome-btn" style="background:linear-gradient(90deg,#8A2BE2,#4AC9FF);color:#fff;font-size:20px;padding:12px 40px;border:none;border-radius:10px;cursor:pointer;box-shadow:0 0 12px #8A2BE2,0 0 4px #4AC9FF;transition:0.2s;">
+                🚀 Bắt đầu trải nghiệm
+            </button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
